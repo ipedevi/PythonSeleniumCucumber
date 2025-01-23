@@ -7,7 +7,7 @@ password_input_xpath = "id('login')//input[contains(@type, 'password')]"
 login_page_button_xpath = "//button[contains(@form, 'login')]"
 
 """ Page Object functionality """
-class space_login_page_object(BasePage):
+class SpaceLoginPageObject(BasePage):
 
     def click_login_button(self):
         # Click on login button

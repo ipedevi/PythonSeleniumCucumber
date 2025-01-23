@@ -5,7 +5,7 @@ from framework.base_page import BasePage
 login_button_xpath = "//button[contains(@class, 'NavButton')]"
 
 """ Page Object functionality """
-class space_page_object(BasePage):
+class SpacePageObject(BasePage):
 
     def click_login_button(self):
         # Click on login button

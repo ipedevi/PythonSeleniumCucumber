@@ -33,6 +33,7 @@ class SeleniumDriver:
         self.driver.maximize_window()
         return self.driver
 
-    def quit_driver(self):
-        if self.driver:
-            self.driver.quit()
+    # def quit_driver(self):
+    #     if self.driver:
+    #         self.driver.quit()
+
