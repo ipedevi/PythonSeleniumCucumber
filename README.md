@@ -49,4 +49,4 @@ Then, in order to execute, you need to use next sentences in project directory:
 - behave
 
 (it will execute all <tests>.feature files that exists in features folder)
-
+.
