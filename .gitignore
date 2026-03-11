@@ -169,3 +169,11 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Test execution output
+output/
+allure-results/
+allure_behave.formatter:AllureFormatter.output/
+result.json
+pretty.output
+.claude/settings.local.json

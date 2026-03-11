@@ -1,14 +1,31 @@
+import allure
 from behave import given, when, then
 
-@given("I visit public marvel api")
-def step_visit_login_page(context):
-    context.result = context.marvel_page.get_marvel_url()
 
-@when("I obtain the first published title")
-def step_verify_dashboard(context):
-    context.url = context.marvel_page.get_resource_uri(context.result, 0)
+@given("I use thedogapi with my API key")
+def step_use_thedogapi(context):
+    with allure.step("Verify TheDogApi driver is initialized"):
+        assert context.dog_api_page is not None
 
-@then("I can obtain deeper info from this title")
-def step_verify_home_page(context):
-    result = context.marvel_previews_page.get_marvel_previews_url(context.url)
-    assert context.marvel_previews_page.get_resource_title(result) == 'Marvel Previews (2017)'
+
+@when("I request a random image of a dog")
+def step_request_random_image(context):
+    with allure.step("Send GET request to TheDogApi random image endpoint"):
+        context.result = context.dog_api_page.get_random_image()
+        allure.attach(
+            context.result.text,
+            name="TheDogApi response",
+            attachment_type=allure.attachment_type.JSON
+        )
+
+
+@then("I should receive a valid response with the image URL")
+def step_verify_image_url(context):
+    with allure.step("Verify response contains a valid HTTPS image URL"):
+        image_url = context.dog_api_page.get_image_url(context.result)
+        assert image_url.startswith("https://"), f"Expected HTTPS URL, got: {image_url}"
+        allure.attach(
+            image_url,
+            name="Image URL",
+            attachment_type=allure.attachment_type.TEXT
+        )

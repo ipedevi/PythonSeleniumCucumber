@@ -1,43 +1,29 @@
-# framework/base_test.py
-import pytest
 from framework.selenium_setup import SeleniumDriver
-from features import myconfig
-
-# Store driver globally for behave access
-_global_driver = None
+import myconfig
 
 
-@pytest.fixture(scope="function")  # Fixture for each scenario
-def selenium_driver():
-    print("Initializing Selenium WebDriver from fixture...")
-    config = myconfig.SELENIUM_CONFIG
-    browser = config.get("browser", "chrome").lower()
-    headless = config.get("headless", False)
-    initial_page = config.get("initial_page", "https://www.google.com")
-
-    selenium_setup = SeleniumDriver()
-    driver = selenium_setup.start_driver(browser, headless, initial_page)
-
-    global _global_driver
-    print("Storing WebDriver globally...")
-    _global_driver = driver  # Correctly store the driver instance
-
-    yield driver
-
-
-def prepare_driver():
+class WebSession:
     """
-    Retrieve the initialized WebDriver.
+    Manages a browser session for a test scenario.
+    Encapsulates the driver so additional context (e.g. multiple drivers,
+    shared state) can be added here without touching the test layer.
     """
-    print("Run pytest to initialize the fixture.")
 
-    global _global_driver
+    def __init__(self):
+        config = myconfig.SELENIUM_CONFIG
+        self._browser = config.get("browser", "chrome_local").lower()
+        self._headless = config.get("headless", False)
+        self._initial_page = config.get("initial_page", "https://www.google.com")
+        self._remote_url = config.get("remote_url", None)
+        self.driver = None
 
-    # Run pytest to initialize the fixture
-    pytest.main(["-q", "--disable-warnings"])
+    def start_driver(self):
+        self.driver = SeleniumDriver().start_driver(
+            self._browser, self._headless, self._initial_page, self._remote_url
+        )
+        return self.driver
 
-    if not _global_driver:
-        raise RuntimeError("Failed to initialize the Selenium WebDriver.")
-
-    print("WebDriver retrieved successfully.")
-    return _global_driver
+    def close_driver(self):
+        if self.driver:
+            self.driver.quit()
+            self.driver = None

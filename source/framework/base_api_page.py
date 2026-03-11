@@ -1,35 +1,28 @@
+import allure
 import requests
 
+
 class BaseApiPage(object):
-    """Base class to initialize the base page that will be called from all pages,
-     it also can include some specific tools like wait for element present"""
+    """Base class for all API page objects. Provides shared HTTP request utilities."""
 
     def __init__(self, api_driver):
         self.api_driver = api_driver
 
-    def send_api(self, method = "GET", url = "", params = ""):
+    @allure.step("Send {method} request to {url}")
+    def send_api(self, method="GET", url="", params=None):
+        """
+        Sends an HTTP request with the configured auth headers.
+
+        Args:
+            method (str): HTTP method (currently only GET is supported).
+            url (str): Target URL.
+            params (dict): Optional query string parameters.
+
+        Returns:
+            Response: The requests.Response object.
+        """
         if method == "GET":
-            response = requests.get(url+"?"+self.api_driver.TOKEN+"&"+params)
-            assert response.status_code == 200
-
-            # review content
-            json_data = response.json()
-            assert json_data['status'] == 'Ok'
-
+            response = requests.get(url, headers=self.api_driver.HEADERS, params=params)
+            assert response.status_code == 200, f"Expected 200, got {response.status_code}"
             return response
-        # TODO: you need to implement for all methods and possibilities
-
-    # TODO: modify the following tools for one more flexible
-    def get_resource_uri(self, response, id=0):
-        # review content
-        json_data = response.json()
-        results = json_data['data']['results']
-        result = results[id]
-        return result['resourceURI']
-
-    def get_resource_title(self, response, id=0):
-        # review content
-        json_data = response.json()
-        results = json_data['data']['results']
-        result = results[id]
-        return result['title']
+        # TODO: implement remaining HTTP methods

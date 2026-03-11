@@ -1,18 +1,19 @@
-from selenium.webdriver.common.by import By
+import allure
 from framework.base_page import BasePage
+from locators.space_locators import SpaceLocators
 
-""" Path to the objects """
-login_button_xpath = "//button[contains(@class, 'NavButton')]"
 
-""" Page Object functionality """
 class SpacePageObject(BasePage):
+    """Page object for the Space home page."""
 
+    @allure.step("Click the login button")
     def click_login_button(self):
-        # Click on login button
-        search_box = self.selenium_driver.find_element(By.XPATH, login_button_xpath)
+        """Waits for the login button to be clickable and clicks it."""
+        search_box = self.wait_for_element(SpaceLocators.LOGIN_BUTTON)
         search_box.click()
 
+    @allure.step("Check if the login button is displayed")
     def is_login_button_displayed(self):
-        # Check if login button exists
-        login_button = self.wait_for_element(lambda:self.selenium_driver.find_element(By.XPATH, login_button_xpath), 2)
+        """Returns True if the login button is visible, False otherwise."""
+        login_button = self.wait_for_element(SpaceLocators.LOGIN_BUTTON, 2)
         return login_button.is_displayed() if login_button else False

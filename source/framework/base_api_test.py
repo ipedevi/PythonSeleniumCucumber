@@ -1,13 +1,10 @@
-# framework/base_test.py
-from features import myconfig
+import myconfig
 
 
 class ApiDriver:
+    """Initializes API authentication from myconfig and exposes headers for requests."""
 
-    def __init__(self): #,ts , apikey, hash):
-        print("Initializing Selenium WebDriver from fixture...")
+    def __init__(self):
         config = myconfig.API_CONFIG
-        ts = config.get("ts", 1)
         apikey = config.get("apikey", "")
-        hash_to_send = config.get("hash", "")
-        self.TOKEN = "ts=" + str(ts) +"&apikey=" + apikey +"&hash=" + hash_to_send
+        self.HEADERS = {"x-api-key": apikey}
