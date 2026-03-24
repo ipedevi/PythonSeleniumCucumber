@@ -11,9 +11,11 @@ class SeleniumDriver:
         if browser == "chrome_local":
             options = ChromeOptions()
             if headless:
-                options.add_argument("--headless")
+                options.add_argument("--headless=new")   # 👈 importante (nuevo headless)
+
             options.add_argument("--disable-gpu")
             options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")  # 👈 ESTE ES EL CLAVE
             self.driver = webdriver.Chrome(service=ChromeService(), options=options)
 
         elif browser == "firefox_local":
