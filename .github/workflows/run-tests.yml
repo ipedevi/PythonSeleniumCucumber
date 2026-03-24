@@ -64,7 +64,7 @@ jobs:
       # 🧪 Ejecutar tests
       - name: Run Tests
         run: |
-          behave --tags='@auto'
+          behave source/features/execution.feature
 
       # 📊 Instalar Allure CLI (correcto)
       - name: Install Allure CLI
