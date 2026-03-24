@@ -7,18 +7,24 @@ on:
         description: 'Mensaje en formato JSON'
         required: true
 
+# 🔥 NECESARIO para publicar en GitHub Pages
+permissions:
+  contents: write
+
 jobs:
   run-tests:
     runs-on: ubuntu-latest
 
     steps:
+      # 📦 Checkout
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # 🌐 Chrome para Selenium
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1
 
-      # 🧠 Crear el feature dinámico
+      # 🧠 Crear feature dinámico
       - name: Create feature file
         run: |
           echo '${{ github.event.inputs.mensaje }}' > payload.json
@@ -39,38 +45,56 @@ jobs:
           echo "----- GENERATED FEATURE -----"
           cat source/features/execution.feature
 
-      # 🐍 Setup Python
+      # 🐍 Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # 📦 Instalar dependencias
+      # 📦 Dependencias
       - name: Install dependencies
         run: |
           pip install selenium behavex allure-behave requests
 
-      # 🧪 Ejecutar Behave SOLO con @auto
-      - name: Run Behave
+      # ⚙️ Forzar headless en CI
+      - name: Force headless config
+        run: |
+          sed -i 's/"headless": False/"headless": True/' myconfig.py
+
+      # 🧪 Ejecutar tests
+      - name: Run Tests
         run: |
           behave --tags='@auto'
 
+      # 📊 Instalar Allure CLI (correcto)
       - name: Install Allure CLI
         run: |
           npm install -g allure-commandline --save-dev
 
+      # 📈 Generar reporte
       - name: Generate Allure report
         run: |
           allure generate allure-results --clean -o allure-report
 
-      - name: Upload Allure report
+      # 📦 Guardar artefacto
+      - name: Upload Allure report (artifact)
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report
 
+      # 🌍 Publicar en GitHub Pages
       - name: Deploy Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
+          publish_branch: gh-pages
+
+      # 🔗 Mostrar URL final
+      - name: Print report URL
+        run: |
+          echo "===================================="
+          echo "REPORT URL:"
+          echo "https://ipedevi.github.io/PythonSeleniumCucumber/"
+          echo "===================================="
