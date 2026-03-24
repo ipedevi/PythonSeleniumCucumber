@@ -45,8 +45,7 @@ jobs:
       # 📦 Instalar dependencias
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt || true
-          pip install behave
+          pip install selenium behavex allure-behave requests
 
       # 🧪 Ejecutar Behave SOLO con @auto
       - name: Run Behave
