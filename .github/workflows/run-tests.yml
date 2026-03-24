@@ -1,40 +1,54 @@
 name: Run Tests
 
 on:
-  workflow_dispatch:  # Esto permite ejecutarlo manualmente o vía API
+  workflow_dispatch:
     inputs:
       mensaje:
         description: 'Mensaje en formato JSON'
         required: true
-        default: '{}'
 
 jobs:
-  simple-test:
+  run-tests:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Parse and Print Gherkin
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 🧠 Crear el feature dinámico
+      - name: Create feature file
         run: |
-          echo "EJECUTANDO LA PRUEBA:"
           echo '${{ github.event.inputs.mensaje }}' > payload.json
 
-          if [ ! -s payload.json ]; then
-            echo "ERROR: JSON vacío o inválido"
-            exit 1
-          fi
+          echo "Parsing JSON..."
+          FEATURE=$(jq -r '.feature' payload.json)
+          SCENARIO=$(jq -r '.scenario' payload.json)
 
-          FEATURE=$(jq -r '.feature // empty' payload.json)
-          SCENARIO=$(jq -r '.scenario // empty' payload.json)
+          mkdir -p source/features
 
-          if [ -z "$FEATURE" ] || [ -z "$SCENARIO" ]; then
-            echo "ERROR: Faltan datos en el JSON"
-            exit 1
-          fi
+          echo "Feature: $FEATURE" > source/features/execution.feature
+          echo "" >> source/features/execution.feature
+          echo "  @auto" >> source/features/execution.feature
+          echo "  Scenario: $SCENARIO" >> source/features/execution.feature
 
-          echo ""
-          echo "Feature: $FEATURE"
-          echo ""
-          echo "  Scenario: $SCENARIO"
+          jq -r '.steps[] | "    \(. )"' payload.json >> source/features/execution.feature
 
-          jq -r '.steps[]? | select(. != null) | "    \(. )"' payload.json
-      - name: Say End
-        run: echo "PRUEBAS ACABADAS!!"
+          echo "----- GENERATED FEATURE -----"
+          cat source/features/execution.feature
+
+      # 🐍 Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 📦 Instalar dependencias
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+          pip install behave
+
+      # 🧪 Ejecutar Behave SOLO con @auto
+      - name: Run Behave
+        run: |
+          behave --tags='@auto'
