@@ -1,1 +1,1 @@
-[{"uid":"243e06580ddf7289","name":"Login fails when username is missing","time":{"start":1774609257123,"stop":1774609262568,"duration":5445},"status":"passed","severity":"normal"}]
+[{"uid":"ee4a06920d35ad43","name":"User can log in with valid credentials","time":{"start":1774609658477,"stop":1774609666741,"duration":8264},"status":"passed","severity":"normal"}]
