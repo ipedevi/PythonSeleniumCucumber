@@ -1,1 +1,1 @@
-{"uid":"ab17fc5a4eb3bca4b216b548c7f9fcbc","name":"timeline","children":[{"name":"User can log in with valid credentials","uid":"da7551cb77c7449e","parentUid":"ab17fc5a4eb3bca4b216b548c7f9fcbc","status":"broken","time":{"start":1774960592569,"stop":1774960610610,"duration":18041},"flaky":false,"newFailed":false,"newPassed":false,"newBroken":false,"retriesCount":0,"retriesStatusChange":false,"parameters":[],"tags":["auto"]}]}
+{"uid":"ab17fc5a4eb3bca4b216b548c7f9fcbc","name":"timeline","children":[]}
