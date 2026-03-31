@@ -1,1 +1,1 @@
-{"9546f4ea9b4d4c53e64571b82c5a6afe":{"statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1},"items":[{"uid":"929ce699d5546e20","status":"passed","time":{"start":1774950365357,"stop":1774950374728,"duration":9371}}]}}
+{"9546f4ea9b4d4c53e64571b82c5a6afe":{"statistic":{"failed":0,"broken":1,"skipped":0,"passed":0,"unknown":0,"total":1},"items":[{"uid":"da7551cb77c7449e","status":"broken","statusDetails":"AttributeError: 'bool' object has no attribute 'click'\n","time":{"start":1774960592569,"stop":1774960610610,"duration":18041}}]}}
