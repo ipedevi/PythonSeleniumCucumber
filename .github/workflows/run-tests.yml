@@ -68,16 +68,19 @@ jobs:
 
       # 📊 Instalar Allure CLI (correcto)
       - name: Install Allure CLI
+        if: always()
         run: |
           npm install -g allure-commandline --save-dev
 
       # 📈 Generar reporte
       - name: Generate Allure report
+        if: always()
         run: |
           allure generate allure-results --clean -o allure-report
 
       # 📦 Guardar artefacto
       - name: Upload Allure report (artifact)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
@@ -85,6 +88,7 @@ jobs:
 
       # 🌍 Publicar en GitHub Pages
       - name: Deploy Allure report to GitHub Pages
+        if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -93,6 +97,7 @@ jobs:
 
       # 🔗 Mostrar URL final
       - name: Print report URL
+        if: always()
         run: |
           echo "===================================="
           echo "REPORT URL:"
