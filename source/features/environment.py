@@ -10,6 +10,7 @@ from framework.base_test import WebSession
 from page_objects.space_page import SpacePageObject
 from page_objects.space_login_page import SpaceLoginPageObject
 from page_objects.space_book_page import SpaceBookPageObject
+from page_objects.space_checkout_page import SpaceCheckoutPageObject
 
 from framework.base_api_test import ApiDriver
 from page_objects.dog_api_page import DogApiPageObject
@@ -27,6 +28,7 @@ def before_scenario(context, scenario):
         context.space_page = SpacePageObject(context.driver)
         context.login_page = SpaceLoginPageObject(context.driver)
         context.book_page = SpaceBookPageObject(context.driver)
+        context.checkout_page = SpaceCheckoutPageObject(context.driver)
 
 
 def after_scenario(context, scenario):

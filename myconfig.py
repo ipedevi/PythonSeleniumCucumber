@@ -12,3 +12,8 @@ SELENIUM_CONFIG = {
 API_CONFIG = {
     "apikey": "live_8bQxz3KD998MZVqQgMoWIFiOr0FWLeV2mwhufaLHHRADDXtnQDgx5sPji7KqTohH", # developer TheDogApi apikey
 }
+
+# Promo Code Configuration
+PROMO_CONFIG = {
+    "code": "PROMO",  # Promo code used in promo.feature checkout tests
+}
