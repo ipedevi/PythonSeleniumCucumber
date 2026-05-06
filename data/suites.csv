@@ -1,4 +1,2 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","4002","User can log in with valid credentials","","2026-05-06","passed","2026-05-06","","","",""
-"","1017","Login fails when username is missing","","2026-05-06","passed","2026-05-06","","","",""
-"","1004","Login fails when password is missing","","2026-05-06","passed","2026-05-06","","","",""
+"","5809","Successfully book a trip to Sant Cugat Del Valles","","2026-05-06","passed","2026-05-06","","","",""
